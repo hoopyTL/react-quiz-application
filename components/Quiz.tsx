@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Results from "./Results.tsx";
+import { useState, useEffect } from "react";
+import Results from "./Results";
 
 type QuizQuestion = {
   question: string;
@@ -130,6 +130,13 @@ const Quiz = () => {
     }
   };
 
+  const restartQuiz = () => {
+    setCurrentQuestion(0);
+    setQuizEnded(false);
+    setScore(0);
+    setUserAnswers(Array.from({ length: quizData.length }));
+  };
+
   useEffect(() => {
     if (selectedOption === quizData[currentQuestion].answer) {
       setScore((prev) => prev + 1);
@@ -137,7 +144,13 @@ const Quiz = () => {
   }, [selectedOption]);
 
   if (isQuizEnded) {
-    return <Results score={score} totalQuestionNumber={quizData.length} />;
+    return (
+      <Results
+        score={score}
+        totalQuestionNumber={quizData.length}
+        restartQuiz={restartQuiz}
+      />
+    );
   }
 
   return (
