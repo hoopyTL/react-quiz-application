@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Results from "./Results";
 
 type QuizQuestion = {
@@ -106,7 +106,15 @@ const Quiz = () => {
       : quizData[currentQuestion].options[selectedOptionIndex];
 
   const [isQuizEnded, setQuizEnded] = useState(false);
-  const [score, setScore] = useState(0);
+
+  // Compute score dynamically from userAnswers
+  const score = userAnswers.reduce<number>((acc, selectedOptionIndex, questionIndex) => {
+    if (selectedOptionIndex === undefined) return acc;
+    const isCorrect =
+      quizData[questionIndex].options[selectedOptionIndex] ===
+      quizData[questionIndex].answer;
+    return isCorrect ? acc + 1 : acc;
+  }, 0);
 
   const handleSelectedOption = (index: number) => {
     setUserAnswers((previousAnswers) => {
@@ -133,7 +141,6 @@ const Quiz = () => {
   const restartQuiz = () => {
     setCurrentQuestion(0);
     setQuizEnded(false);
-    setScore(0);
     setUserAnswers(Array.from({ length: quizData.length }));
   };
 
@@ -141,12 +148,6 @@ const Quiz = () => {
     setCurrentQuestion(0);
     setQuizEnded(false);
   };
-
-  useEffect(() => {
-    if (selectedOption === quizData[currentQuestion].answer) {
-      setScore((prev) => prev + 1);
-    }
-  }, [selectedOption]);
 
   if (isQuizEnded) {
     return (
