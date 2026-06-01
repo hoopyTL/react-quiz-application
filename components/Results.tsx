@@ -2,10 +2,15 @@ type ResultsProps = {
   score: number;
   totalQuestionNumber: number;
   restartQuiz: () => void;
-  onReview?: () => void;
+  reviewQuiz: () => void;
 };
 
-const Results = ({ score, totalQuestionNumber, restartQuiz, onReview }: ResultsProps) => {
+const Results = ({
+  score,
+  totalQuestionNumber,
+  restartQuiz,
+  reviewQuiz,
+}: ResultsProps) => {
   return (
     <div>
       <h2>Kết quả</h2>
@@ -14,7 +19,7 @@ const Results = ({ score, totalQuestionNumber, restartQuiz, onReview }: ResultsP
         Bạn trả lời đúng {score} / {totalQuestionNumber} câu
       </p>
       <div className="resultButtonsContainer">
-        <button className="result-button" onClick={onReview}>
+        <button className="result-button" onClick={reviewQuiz}>
           Xem lại
         </button>
         <button className="result-button" onClick={restartQuiz}>

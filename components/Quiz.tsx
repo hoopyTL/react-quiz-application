@@ -137,6 +137,11 @@ const Quiz = () => {
     setUserAnswers(Array.from({ length: quizData.length }));
   };
 
+  const reviewQuiz = () => {
+    setCurrentQuestion(0);
+    setQuizEnded(false);
+  };
+
   useEffect(() => {
     if (selectedOption === quizData[currentQuestion].answer) {
       setScore((prev) => prev + 1);
@@ -149,6 +154,7 @@ const Quiz = () => {
         score={score}
         totalQuestionNumber={quizData.length}
         restartQuiz={restartQuiz}
+        reviewQuiz={reviewQuiz}
       />
     );
   }
