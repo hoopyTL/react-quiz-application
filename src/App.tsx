@@ -1,4 +1,6 @@
 import Quiz from "../components/Quiz";
+import Results from "../components/Quiz";
+
 function App() {
   return (
     <div className="container">

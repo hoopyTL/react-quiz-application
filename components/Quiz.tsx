@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Results from "./Results.tsx";
 
 type QuizQuestion = {
   question: string;
@@ -104,6 +105,9 @@ const Quiz = () => {
       ? ""
       : quizData[currentQuestion].options[selectedOptionIndex];
 
+  const [isQuizEnded, setQuizEnded] = useState(false);
+  const [score, setScore] = useState(0);
+
   const handleSelectedOption = (index: number) => {
     setUserAnswers((previousAnswers) => {
       const nextAnswers = [...previousAnswers];
@@ -113,7 +117,11 @@ const Quiz = () => {
   };
 
   const goNext = () => {
-    setCurrentQuestion((prev) => prev + 1);
+    if (currentQuestion === quizData.length - 1) {
+      setQuizEnded(true);
+    } else {
+      setCurrentQuestion((prev) => prev + 1);
+    }
   };
 
   const goBack = () => {
@@ -121,6 +129,16 @@ const Quiz = () => {
       setCurrentQuestion((prev) => prev - 1);
     }
   };
+
+  useEffect(() => {
+    if (selectedOption === quizData[currentQuestion].answer) {
+      setScore((prev) => prev + 1);
+    }
+  }, [selectedOption]);
+
+  if (isQuizEnded) {
+    return <Results score={score} totalQuestionNumber={quizData.length} />;
+  }
 
   return (
     <div>
